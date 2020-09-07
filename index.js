@@ -92,9 +92,6 @@ class TuyaDevice extends EventEmitter {
    */
   get(options = {}) {
     const payload = {
-      gwId: this.device.gwID,
-      devId: this.device.id,
-      t: Math.round(new Date().getTime() / 1000).toString(),
       dps: {},
       uid: this.device.id
     };
@@ -105,7 +102,7 @@ class TuyaDevice extends EventEmitter {
     // Create byte buffer
     const buffer = this.device.parser.encode({
       data: payload,
-      commandByte: CommandType.DP_QUERY,
+      commandByte: CommandType.DP_QUERY_NEW,
       sequenceN: ++this._currentSequenceN
     });
 
@@ -188,10 +185,6 @@ class TuyaDevice extends EventEmitter {
 
     // Construct payload
     const payload = {
-      devId: options.devId || this.device.id,
-      gwId: this.device.gwID,
-      uid: '',
-      t: timeStamp,
       dps
     };
 
